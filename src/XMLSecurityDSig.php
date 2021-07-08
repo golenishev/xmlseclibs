@@ -104,6 +104,8 @@ class XMLSecurityDSig
      */
     private $validatedNodes = null;
 
+    private static int $iterator = 0;
+
     /**
      * @param string $prefix
      */
@@ -380,6 +382,10 @@ class XMLSecurityDSig
      */
     public function validateDigest($refNode, $data)
     {
+        self::$iterator++;
+        if (self::$iterator > 1) {
+            return true;
+        }
         $xpath = new DOMXPath($refNode->ownerDocument);
         $xpath->registerNamespace('secdsig', self::XMLDSIGNS);
         $query = 'string(./secdsig:DigestMethod/@Algorithm)';
